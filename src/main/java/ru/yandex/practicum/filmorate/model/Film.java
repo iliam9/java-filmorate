@@ -1,12 +1,14 @@
 package ru.yandex.practicum.filmorate.model;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldDefaults;
+import ru.yandex.practicum.filmorate.group.UpdateGroup;
 import ru.yandex.practicum.filmorate.validator.RealiseDateConstraint;
 
 import java.time.LocalDate;
@@ -15,25 +17,17 @@ import java.time.LocalDate;
  * Film.
  */
 @Data
-@Builder
-
+@EqualsAndHashCode(exclude = {"id"})
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Film {
-
-    private long id;
-
-    @NotEmpty(message = "Название не может быть пустым")
-    private String name;
-
-    @NotEmpty(message = "Описание не может быть пустым")
-    @Size(max = 200, message = "Максимальная длина описания — 200 символов")
-    private String description;
-
+    @NotNull(groups = {UpdateGroup.class})
+    Long id;
+    @NotBlank(message = "Имя не может быть пустым")
+    String name;
+    @Size(max = 200, message = "Превышено количество символов")
+    String description;
     @RealiseDateConstraint
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate releaseDate;
-
-    @NotNull
-    @Positive(message = "Продолжительность фильма должна быть положительным числом")
-    private Integer duration;
-
+    LocalDate releaseDate;
+    @Min(value = 0, message = "Продолжительность фильма не может быть отрицательным числом")
+    Long duration;
 }

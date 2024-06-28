@@ -2,80 +2,52 @@ package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.ConditionsNotMetException;
+import ru.yandex.practicum.filmorate.dto.FilmDTO;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.group.UpdateGroup;
 import ru.yandex.practicum.filmorate.model.Film;
 
-import java.time.LocalDate;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
-@Slf4j
 @RequestMapping("/films")
+@Slf4j
 public class FilmController {
     private final Map<Long, Film> films = new HashMap<>();
 
-    //Добавление фильма
-    @PostMapping("/add")
-    public Film createFilm(@Valid @RequestBody Film film) {
+    @GetMapping
+    public List<FilmDTO> findAll() {
+        log.info("Запрос на получение списка фильмов");
+        List<FilmDTO> allFilmDTO = new ArrayList<>();
+        films.values().forEach(film -> allFilmDTO.add(getDTO(film)));
+        return allFilmDTO;
+    }
 
-        if (film.getReleaseDate() == null || film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
-            log.warn("Дата релиза — не раньше 28 декабря 1895 года");
-            throw new ConditionsNotMetException("Дата релиза — не раньше 28 декабря 1895 года");
-        }
+    @PostMapping
+    public FilmDTO create(@Valid @RequestBody Film film) {
         film.setId(getNextId());
         films.put(film.getId(), film);
-        log.info("Добавлен новый фильм");
-        return film;
+        log.info("Фильм успешно добавлен под id {}", film.getId());
+        return getDTO(film);
     }
 
-    @GetMapping("/list")
-    public Collection<Film> findAll() {
-        log.info("Получен список всех фильмов");
-        return films.values();
-    }
-
-    @PutMapping("/update")
-    public Film updateFilm(@Valid @RequestBody Film filmToUpdate) {
-
-        if (films.containsKey(filmToUpdate.getId())) {
-
-            Film film = films.get(filmToUpdate.getId());
-
-            if (filmToUpdate.getDescription() == null || filmToUpdate.getDescription().length() > 200) {
-                log.warn("Невозможно обновить фильм, описание более 200 символов или отсутствует");
-                throw new ConditionsNotMetException("Максимальная длина описания — 200 символов");
-            }
-
-            if (filmToUpdate.getName() == null || filmToUpdate.getName().isBlank()) {
-                log.warn("Невозможно обновить фильм, название пустое или отсутствует");
-                throw new ConditionsNotMetException("Название фильма не может быть пустым");
-            }
-
-            if (filmToUpdate.getDuration() == null || filmToUpdate.getDuration() <= 0) {
-                log.warn("Невозможно обновить фильм, указана продолжительность <= 0 или продолжительность не указана");
-                throw new ConditionsNotMetException("Продолжительность фильма должна быть положительным числом");
-            }
-
-            if (filmToUpdate.getReleaseDate() == null ||
-                    filmToUpdate.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
-                log.warn("Невозможно обновить фильм, указана дата раньше 28 декабря 1895 года;");
-                throw new ConditionsNotMetException("Продолжительность фильма должна быть положительным числом");
-            }
-            film.setName(filmToUpdate.getName());
-            film.setReleaseDate(filmToUpdate.getReleaseDate());
-            film.setDescription(filmToUpdate.getDescription());
-            film.setDuration(filmToUpdate.getDuration());
-            log.info("Фильм обновлен");
-            return film;
+    @PutMapping
+    public FilmDTO update(@Validated(UpdateGroup.class) @RequestBody Film film) {
+        if (films.containsKey(film.getId())) {
+            films.put(film.getId(), film);
+            log.info("Фильм с id {} успешно обновлен", film.getId());
+            return getDTO(film);
         }
-        throw new NotFoundException("Фильм с id = " + filmToUpdate.getId() + " не найден");
+        log.error("Фильма с id = {} нет.", film.getId());
+        throw new NotFoundException("Фильма с id = {} нет." + film.getId());
     }
 
-    private long getNextId() {
+    private Long getNextId() {
         long currentMaxId = films.keySet()
                 .stream()
                 .mapToLong(id -> id)
@@ -84,4 +56,13 @@ public class FilmController {
         return ++currentMaxId;
     }
 
+    private FilmDTO getDTO(Film film) {
+        FilmDTO filmDTO = new FilmDTO();
+        filmDTO.setId(film.getId());
+        filmDTO.setName(film.getName());
+        filmDTO.setDescription(film.getDescription());
+        filmDTO.setReleaseDate(film.getReleaseDate());
+        filmDTO.setDuration(film.getDuration());
+        return filmDTO;
+    }
 }
