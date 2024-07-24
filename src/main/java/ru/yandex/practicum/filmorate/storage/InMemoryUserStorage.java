@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class InMemoryUserStorage implements UserStorage {
+    private long maxId;
+
     @Override
     public Optional<List<UserDTO>> findAll() {
         List<UserDTO> allUserDTO = new ArrayList<>();
@@ -68,12 +70,7 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     private Long getNextId() {
-        long currentMaxId = users.keySet()
-                .stream()
-                .mapToLong(id -> id)
-                .max()
-                .orElse(0);
-        return ++currentMaxId;
+        return ++maxId;
     }
 
     private UserDTO getDTO(User user) {

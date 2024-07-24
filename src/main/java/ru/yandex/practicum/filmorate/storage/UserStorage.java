@@ -17,7 +17,7 @@ public interface UserStorage {
 
     Optional<List<UserDTO>> findAll();
 
-    UserDTO create(@Valid @RequestBody User user);
+    UserDTO create(@RequestBody User user);
 
     UserDTO update(@Validated(UpdateGroup.class) @RequestBody User user);
 
