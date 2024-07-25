@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
+import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.filmorate.dto.UserDTO;
@@ -16,7 +17,7 @@ public interface UserStorage {
 
     Optional<List<UserDTO>> findAll();
 
-    UserDTO create(@RequestBody User user);
+    UserDTO create(@Valid @RequestBody User user);
 
     UserDTO update(@Validated(UpdateGroup.class) @RequestBody User user);
 
