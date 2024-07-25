@@ -20,7 +20,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/films")
 @AllArgsConstructor
-@Validated
 public class FilmController {
     private static final Logger log = LoggerFactory.getLogger(FilmController.class);
 

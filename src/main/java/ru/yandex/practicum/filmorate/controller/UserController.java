@@ -18,7 +18,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
-@Validated
 public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
