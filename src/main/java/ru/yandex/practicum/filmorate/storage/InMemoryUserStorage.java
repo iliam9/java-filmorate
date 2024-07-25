@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 public class InMemoryUserStorage implements UserStorage {
     private long maxId;
 
+    private final Map<Long, User> users = new HashMap<>();
+
     @Override
     public Optional<List<UserDTO>> findAll() {
         List<UserDTO> allUserDTO = new ArrayList<>();

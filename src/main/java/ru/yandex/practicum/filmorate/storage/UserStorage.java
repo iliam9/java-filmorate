@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface UserStorage {
-    Map<Long, User> users = new HashMap<>();
 
     Optional<List<UserDTO>> findAll();
 
