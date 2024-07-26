@@ -16,7 +16,7 @@ public interface UserStorage {
 
     UserDTO create(User user);
 
-    UserDTO update(/*@Validated(UpdateGroup.class) @RequestBody*/ User user);
+    UserDTO update(User user);
 
     UserDTO addNewFriend(Long id, Long friendId);
 
