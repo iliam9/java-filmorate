@@ -1,9 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.filmorate.dto.UserDTO;
-import ru.yandex.practicum.filmorate.group.UpdateGroup;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.List;
