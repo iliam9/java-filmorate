@@ -9,10 +9,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import ru.yandex.practicum.filmorate.model.*;
+import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
-import ru.yandex.practicum.filmorate.repository.jdbc.extractor.FilmsExtractor;
 import ru.yandex.practicum.filmorate.repository.jdbc.extractor.FilmExtractor;
+import ru.yandex.practicum.filmorate.repository.jdbc.extractor.FilmsExtractor;
+
 import java.util.*;
 
 @Repository
@@ -32,7 +34,7 @@ public class JdbcFilmRepository implements FilmRepository {
                 "LEFT JOIN film_genres fg ON f.film_id = fg.film_id " +
                 "LEFT JOIN genres g ON fg.genre_id = g.genre_id " +
                 "WHERE f.film_id = :film_id; ";
-        Film film = jdbc.query(sql, Map.of("film_id", id),filmExtractor);
+        Film film = jdbc.query(sql, Map.of("film_id", id), filmExtractor);
         return Optional.ofNullable(film);
     }
 

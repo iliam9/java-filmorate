@@ -3,13 +3,17 @@ package ru.yandex.practicum.filmorate.repository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.model.Mpa;
+
 import java.util.Collection;
 import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 

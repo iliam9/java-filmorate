@@ -12,7 +12,7 @@ import ru.yandex.practicum.filmorate.group.UpdateGroup;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
-import java.util.*;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

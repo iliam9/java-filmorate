@@ -99,7 +99,7 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public List<User> getMutualFriends(final int id, final int otherId) {
-        String sql =  "SELECT * " +
+        String sql = "SELECT * " +
                 "FROM users " +
                 "WHERE user_id IN (SELECT f.friend_user_id " +
                 "FROM users AS u " +

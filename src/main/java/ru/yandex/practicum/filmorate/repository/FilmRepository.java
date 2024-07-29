@@ -1,7 +1,9 @@
 package ru.yandex.practicum.filmorate.repository;
 
 import ru.yandex.practicum.filmorate.model.Film;
-import java.util.*;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface FilmRepository {
     Optional<Film> getDyId(int id);
@@ -12,7 +14,7 @@ public interface FilmRepository {
 
     Film update(Film film);
 
-    void  putLike(int id, int userId);
+    void putLike(int id, int userId);
 
     void deleteLike(int id, int userId);
 

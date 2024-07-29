@@ -10,10 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ImportResource;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Mpa;
+
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
-import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest

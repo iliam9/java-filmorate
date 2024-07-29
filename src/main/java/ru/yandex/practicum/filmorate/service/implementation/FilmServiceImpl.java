@@ -7,12 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
-import ru.yandex.practicum.filmorate.model.*;
+import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
 import ru.yandex.practicum.filmorate.repository.GenreRepository;
 import ru.yandex.practicum.filmorate.repository.MpaRepository;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
 import ru.yandex.practicum.filmorate.service.FilmService;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
