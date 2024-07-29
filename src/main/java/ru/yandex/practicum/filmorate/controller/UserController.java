@@ -2,68 +2,62 @@ package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.dto.UserDTO;
 import ru.yandex.practicum.filmorate.group.UpdateGroup;
 import ru.yandex.practicum.filmorate.model.User;
-
-import java.util.List;
-import java.util.Optional;
+import ru.yandex.practicum.filmorate.service.UserService;
+import java.util.*;
 
 @RestController
-@RequestMapping("/users")
 @RequiredArgsConstructor
-@Validated
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserController {
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+    UserService userService;
 
-    private final UserService userService;
+    @GetMapping("/users/{id}")
+    public User getById(@PathVariable @Positive final int id) {
+        return userService.getById(id);
+    }
 
-    @GetMapping
-    public Optional<List<UserDTO>> findAll() {
-        log.info("All users received");
+    @GetMapping("/users")
+    public List<User> findAll() {
         return userService.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO create(@Valid @RequestBody User user) {
-        log.info("User created");
+    public User create(@Valid @RequestBody final User user) {
         return userService.create(user);
     }
 
-    @PutMapping
-    public UserDTO update(@Validated(UpdateGroup.class) @RequestBody User user) {
-        log.info("User updated");
+    @PutMapping("/users")
+    public User update(@Validated(UpdateGroup.class) @Valid @RequestBody final User user) {
         return userService.update(user);
     }
 
-    @PutMapping("/{id}/friends/{friendId}")
-    public UserDTO addNewFriend(@PathVariable @Positive Long id, @PathVariable @Positive Long friendId) {
-        log.info("New friend added");
-        return userService.addNewFriend(id, friendId);
+    @PutMapping("/users/{id}/friends/{friendId}")
+    public void addNewFriend(@PathVariable @Positive final int id, @PathVariable @Positive final int friendId) {
+        userService.addNewFriend(id, friendId);
     }
 
-    @DeleteMapping("/{id}/friends/{friendId}")
-    public UserDTO deleteFriend(@PathVariable @Positive Long id, @PathVariable @Positive Long friendId) {
-        log.info("Friend deleted");
-        return userService.deleteFriend(id, friendId);
+    @DeleteMapping("/users/{id}/friends/{friendId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFriend(@PathVariable @Positive final int id, @PathVariable @Positive final int friendId) {
+        userService.deleteFriend(id, friendId);
     }
 
-    @GetMapping("/{id}/friends")
-    public Optional<List<UserDTO>> getAllFriends(@PathVariable @Positive Long id) {
-        log.info("All friends received");
+    @GetMapping("/users/{id}/friends")
+    public List<User> getAllFriends(@PathVariable @Positive final int id) {
         return userService.getAllFriends(id);
     }
 
-    @GetMapping("/{id}/friends/common/{otherId}")
-    public Optional<List<UserDTO>> getMutualFriends(@PathVariable Long id, @PathVariable Long otherId) {
-        log.info("Mutual friends received");
+    @GetMapping("/users/{id}/friends/common/{otherId}")
+    public List<User> getMutualFriends(@PathVariable final int id, @PathVariable final int otherId) {
         return userService.getMutualFriends(id, otherId);
     }
 }
