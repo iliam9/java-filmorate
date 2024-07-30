@@ -12,8 +12,7 @@ import ru.yandex.practicum.filmorate.group.UpdateGroup;
 import ru.yandex.practicum.filmorate.validation.StartRelease;
 
 import java.time.LocalDate;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.LinkedHashSet;
 
 /**
  * Film.
@@ -23,18 +22,19 @@ import java.util.TreeSet;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Film {
     @NotNull(groups = {UpdateGroup.class})
-    Long id;
+    Integer id;
+    @Size(max = 255)
     @NotBlank(message = "Имя не может быть пустым")
     String name;
     @Size(max = 200, message = "Превышено количество символов")
+    @NotBlank
     String description;
     @StartRelease
+    @NotNull
     LocalDate releaseDate;
     @Min(value = 0, message = "Продолжительность фильма не может быть отрицательным числом")
-    Long duration;
-    Set<Long> likes = new TreeSet<>();
-
-    public void setLikes(Long id) {
-        likes.add(id);
-    }
+    int duration;
+    @NotNull
+    Mpa mpa;
+    LinkedHashSet<Genre> genres = new LinkedHashSet<>();
 }

@@ -1,11 +1,12 @@
-package ru.yandex.practicum.filmorate.service;
+package ru.yandex.practicum.filmorate.repository;
 
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface UserService {
-    User getById(int id);
+public interface UserRepository {
+    Optional<User> getById(int id);
 
     List<User> findAll();
 
@@ -21,3 +22,4 @@ public interface UserService {
 
     List<User> getMutualFriends(int id, int otherId);
 }
+

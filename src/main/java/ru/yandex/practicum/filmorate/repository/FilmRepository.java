@@ -1,11 +1,12 @@
-package ru.yandex.practicum.filmorate.service;
+package ru.yandex.practicum.filmorate.repository;
 
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface FilmService {
-    Film getById(int id);
+public interface FilmRepository {
+    Optional<Film> getDyId(int id);
 
     List<Film> findAll();
 
@@ -18,4 +19,6 @@ public interface FilmService {
     void deleteLike(int id, int userId);
 
     List<Film> getBestFilm(int count);
+
+    List<Integer> getAllId();
 }
